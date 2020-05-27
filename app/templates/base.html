@@ -1,0 +1,15 @@
+<html>
+    <head>
+        {% if title %}
+        <title>{{ title }} - Remote Trivia</title>
+        {% else %}
+        <title>Welcome to Remote Trivia</title>
+        {% endif %}
+
+    </head>
+    <body>
+        <div>Remote Trivia: <a href="/index">Home</a></div>
+        <hr>
+        {% block content %}{% endblock %}
+    </body>
+</html>'
