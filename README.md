@@ -1,2 +1,2 @@
-# trivia
-A simple web app for hosting and playing live trivia remotely.
+# PittApp
+A simple web app for planning pits
