@@ -1,2 +1,2 @@
-FLASK_APP=trivia.py
+FLASK_APP=pit.py
 PYTHONPATH=trivia
