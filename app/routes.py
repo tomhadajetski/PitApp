@@ -1,6 +1,6 @@
 from flask import render_template, flash, redirect, url_for, request
-from app import app
-from app.forms import LoginForm
+from app import app, db
+from app.forms import LoginForm, RegistrationForm
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User
 from werkzeug.urls import url_parse
@@ -11,12 +11,12 @@ from werkzeug.urls import url_parse
 def index():
     posts = [
         {
-            'author': {'username': 'John'},
-            'body': 'Ready for some trivia!'
+            'author': {'username': 'Justin'},
+            'body': 'Let\'s do a pit'
         },
         {
-            'author': {'username': 'Bob'},
-            'body': 'I know lots of dumb things!'
+            'author': {'username': 'Noel'},
+            'body': 'Pit is good'
         }
     ]
     return render_template('index.html', title='Home', posts=posts)
@@ -33,7 +33,7 @@ def login():
     #queries db to check for username, then password
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
-        if user is None or user.check_password(password=form.password.data):
+        if user is None or not user.check_password(password=form.password.data):
             flash('Invalid username or password')
             return(redirect(url_for('index')))
         login_user(user, remember=form.remember_me.data)
@@ -50,3 +50,19 @@ def login():
 def logout():
     logout_user()
     return(redirect(url_for('index')))
+
+#----------------- Register ----------------------#
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        user = User(username=form.username.data, email=form.email.data)
+        user.set_password(form.password.data)
+        db.session.add(user)
+        db.session.commit()
+        flash('Congratulations, you are now a registered user')
+        return redirect(url_for('login'))
+    return render_template('register.html', title="Register", form=form)
+
