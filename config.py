@@ -7,7 +7,7 @@ class Config(object):
 # Database config
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
         'sqlite:///' + os.path.join(basedir, 'app.db')
-    QLALCHEMY_TRACK_MODIFICATIONS = False
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 # Email Server Config For Error Notification
     MAIL_SERVER = os.environ.get('MAIL_SERVER')
