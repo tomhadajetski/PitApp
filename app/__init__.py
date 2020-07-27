@@ -3,11 +3,10 @@ from config import Config
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
+from flask_mail import Mail
 import logging
 from logging.handlers import SMTPHandler, RotatingFileHandler
 import os
-
-
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -22,6 +21,7 @@ login = LoginManager(app)
 # Identify view function that handles logins
 login.login_view = 'login'
 
+mail = Mail(app)
 # Emails errors when not in debug mode
 if not app.debug:
     if app.config['MAIL_SERVER']:
